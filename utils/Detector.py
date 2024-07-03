@@ -7,7 +7,7 @@ def InitializeBlobDetector():
     params.maxThreshold = 256
     
     params.filterByArea = True
-    params.minArea = 350
+    params.minArea = 1000 #350
 
     params.filterByConvexity = False
     params.filterByInertia = False
