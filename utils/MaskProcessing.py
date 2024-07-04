@@ -4,12 +4,12 @@ import numpy as np
 def GetColorMask(img, sliders):
     saturationMin = sliders.getMaskSettings().saturationMin
 
-    lowerBound = np.array([0, saturationMin, 1])
-    upperBound = np.array([20, 255, 255])
+    # lowerBound = np.array([0, saturationMin, 1])
+    # upperBound = np.array([20, 255, 255])
 
     lowerBound = np.array([0, 0, 0])
     # upper_black = np.array([107, 140, 102])
-    upperBound = np.array([150, 150, 150])
+    upperBound = np.array([saturationMin, saturationMin, saturationMin])
 
 
     hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
@@ -22,7 +22,8 @@ def ProcessImageMask(mask, ogImg, sliders):
     maskImg = cv2.morphologyEx(maskImg, cv2.MORPH_CLOSE, np.ones((_close, _close)), iterations= 2)
     maskImg = cv2.erode(maskImg, np.ones((_erode, _erode)), iterations = 1)
     maskImg = cv2.dilate(maskImg, np.ones((_dilate, _dilate)), iterations = 1)
-    
-    maskImg = cv2.bitwise_and(ogImg, ogImg, mask = maskImg)
-    maskImg = 255 - maskImg
+
+    mod_img = 255 - ogImg
+    maskImg = cv2.bitwise_and(mod_img, mod_img, mask = maskImg)
+    # maskImg = 255 - maskImg
     return maskImg
